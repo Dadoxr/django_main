@@ -1,0 +1,18 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block content %}
+
+<main class="px-3">
+    <h1>Рассылки</h1>
+    <p class="lead">Создай свою рассылку.</p>
+    <p class="lead">
+        {% if user.is_authenticated %}
+            <a href="{% url "mailing:create_setting" %}" class="btn btn-lg btn-light fw-bold border-white bg-white">Начать</a>
+        {% else %}
+            <a href="{% url "users:register" %}" class="btn btn-lg btn-light fw-bold border-white bg-white">Начать</a>
+{% endif %}
+    </p>
+  </main>
+
+{% endblock content %}
