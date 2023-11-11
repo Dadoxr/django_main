@@ -1,2 +1,7 @@
 django
-python-doten
+python-dotenv
+psycopg2-binary
+django-crispy-forms
+crispy-bootstrap5
+django-apscheduler
+django-timezone-field
