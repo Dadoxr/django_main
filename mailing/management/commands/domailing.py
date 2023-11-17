@@ -23,11 +23,13 @@ class Command(BaseCommand):
 
     scheduler.add_job(
       check_time_and_send_mail,
-      trigger=CronTrigger(second="*/300"),
+      trigger=CronTrigger(minute="*/5"),
       id="check_time_and_send_mail", 
       max_instances=1,
       replace_existing=True,
     )
+
+
     logger.info("Added job 'check_time_and_send_mail'.")
 
     try:

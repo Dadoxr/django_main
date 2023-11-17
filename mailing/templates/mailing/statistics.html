@@ -1,0 +1,39 @@
+{% extends "mailing/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<main>
+    <table class="table table-bordered">
+        <thead>
+            <tr class="text-center align-middle">
+                <th scope="col">#</th>
+                <th scope="col">Последняя отправка</th>
+                <th scope="col">Статус отправки</th>
+                <th scope="col">Ответ</th>
+                <th scope="col">Рассылка</th>
+                <th scope="col">Статус рассылки</th>
+                <th scope="col">Письмо</th>
+
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for object in object_list %}
+                <tr class="text-center align-middle">
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>{{ object.date_last }} {{ object.time_last }}</td>
+                    <td>{% if object.is_send %} <p class="text-success">ОК</p> {% else %} <p class="text-danger">не ОК</p> {% endif %} </td>
+                    <td>{{ object.answer }}</td>
+                    <td>{{ object.setting }}</td>
+                    <td>{{ object.setting.status }}</td>
+                    <td>{{ object.setting.message }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+         
+</main>
+
+{% endblock content %}
