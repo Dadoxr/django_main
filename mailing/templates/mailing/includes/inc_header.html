@@ -1,0 +1,63 @@
+<header>
+    <div class="d-flex flex-column flex-md-row align-items-center pb-3 mb-4 border-bottom">
+        <a href="/" class="d-flex align-items-center text-dark text-decoration-none">
+            <span class="fs-4">{{ site_name }}</span>
+        </a>
+        
+        <nav class="d-inline-flex mt-2 mt-md-0 ms-md-auto">
+        {% if perms.blog.view_blog %}
+            <a class="me-3 py-2 text-dark text-decoration-none" href="{% url "blog:list" %}">Блог</a>
+        {% endif %}
+        {% if perms.mailing.view_setting %}
+            <a class="me-3 py-2 text-dark text-decoration-none" href="{% url "mailing:create_message" %}">Создать
+                рассылку</a>
+            <div class="dropdown me-3 py-2 text-dark text-decoration-none">
+                <a class="text-dark text-decoration-none" href="#" role="button" id="dropdownMenuLink"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                    Управление
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-arrow-down-short" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd"
+                            d="M8 4a.5.5 0 0 1 .5.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L7.5 10.293V4.5A.5.5 0 0 1 8 4z" />
+                    </svg>
+                </a>
+
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                    <li><a class="dropdown-item" href="{% url "mailing:manage_settings" %}">Управление рассылками</a>
+                    </li>
+                    <li><a class="dropdown-item" href="{% url "mailing:manage_messages" %}">Управление сообщениями</a>
+                    </li>
+                </ul>
+            </div>
+            <a class="me-3 py-2 text-dark text-decoration-none" href="{% url "mailing:statistics" %}">Статистика</a>
+        {% endif %}
+            <a class="me-3 py-2 text-dark text-decoration-none" href="{% url "users:profile" %}">Настройки профиля</a>
+            <a class="me-3 py-2 text-dark text-decoration-none" href="{% url "users:logout" %}">Выйти</a>
+            {% if user.is_staff %}
+            <div class="dropdown me-3 py-2 text-dark text-decoration-none">
+                <a class="text-dark text-decoration-none" href="#" role="button" id="dropdownMenuLink"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                    Для персонала
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-arrow-down-short" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd"
+                            d="M8 4a.5.5 0 0 1 .5.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L7.5 10.293V4.5A.5.5 0 0 1 8 4z" />
+                    </svg>
+                </a>
+
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                    <li><a class="dropdown-item" href="/admin">Admin</a></li>
+                    <li><a class="dropdown-item" href="{% url "users:list" %}">Пользователи сервиса</a></li>
+                </ul>
+            </div>
+            {% endif %}
+        </nav>
+
+    </div>
+
+    <div class="pricing-header p-3 pb-md-4 mx-auto text-center">
+        <h1 class="display-4 fw-normal">{{ title }}</h1>
+        <p class="fs-5 text-muted">{{ description }}</p>
+    </div>
+
+</header>

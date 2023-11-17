@@ -1,0 +1,44 @@
+{% extends "mailing/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<main>
+    <form method="post">
+        {% csrf_token %}
+        <table class="table table-bordered">
+            <thead>
+                <tr class="text-center align-middle">
+                    <th scope="col">#</th>
+                    <th scope="col">Период</th>
+                    <th scope="col">Время</th>
+                    <th scope="col">Количество раз отправлена</th>
+                    <th scope="col">Тема сообщения</th>
+                    <th scope="col">Тело сообщения</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr class="text-center align-middle">
+                    <th scope="row">1</th>
+                    <td>{{ object.period }}</td>
+                    <td>{{ object.start_time }}</td>
+                    <td>{{ object.count }}</td>
+                    <td>{{ object.message.subject }}</td>
+                    <td>{{ object.message.body }}</td>
+                </tr>
+
+            </tbody>
+        </table>
+    
+        <button type="submit" class="w-100 btn btn-danger btn-lg mb-2">
+            Подтвердить
+        </button>
+        <a class="w-100 btn btn-primary btn-lg mb-5" href="{% url 'mailing:manage_settings' %}">
+            Отмена
+        </a>
+    </form>
+</main>
+
+
+{% endblock content %}

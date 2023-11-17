@@ -1,0 +1,17 @@
+{% extends "mailing/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<main>
+    <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
+        
+        <h1>{{ object.title }}</h1>
+        <img src="{{ object.title_image.url }}" class="card-img-top" alt="{{ object.title_image }}">
+        <p>{{ object.body }}</p>
+        
+    </div>
+</main>
+
+{% endblock content %}
