@@ -5,14 +5,24 @@
 
 <main class="px-3">
     <h1>Рассылки</h1>
-    <p class="lead">Создай свою рассылку.</p>
+    <p class="lead">Количество рассылок всего: {{ all_mailings }}</p>
+    <p class="lead">Количество активных рассылок: {{ start_mailings }}</p>
+    <p class="lead">Количество уникальных клиентов для рассылок: {{ all_recipients }}</p>
+    <p class="lead">3 случайные статьи: 
+        {% for article in random_articles %}
+            <a href="{% url "blog:detail" article.pk %}">{{ forloop.counter }}</a>
+        {% endfor %}
+    </p>
+
+    <h3 class="mb-5">Создай свою рассылку.</h3>
     <p class="lead">
         {% if user.is_authenticated %}
             <a href="{% url "mailing:create_setting" %}" class="btn btn-lg btn-light fw-bold border-white bg-white">Начать</a>
         {% else %}
             <a href="{% url "users:register" %}" class="btn btn-lg btn-light fw-bold border-white bg-white">Начать</a>
-{% endif %}
+        {% endif %}
     </p>
-  </main>
+   
+</main>
 
 {% endblock content %}
