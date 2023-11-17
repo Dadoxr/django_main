@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'main',
     'users',
     'mailing',
+    'blog',
     'crispy_forms',
     'crispy_bootstrap5',
     'django_apscheduler',
@@ -136,7 +137,8 @@ STATIC_URL = 'static/'
 STATICFILES_DIRS = (
 	BASE_DIR / 'static',
 )
-
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
@@ -146,12 +148,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'users.User'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
+LOGIN_URL = '/users/'
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 APSCHEDULER_DATETIME_FORMAT = "N j, Y, f:s a"
-# APSCHEDULER_RUN_NOW_TIMEOUT = 25 
 
 LOGGING = {
     "version": 1,
@@ -205,9 +207,9 @@ LOGGING = {
 EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
 EMAIL_FILE_PATH = os.path.join(BASE_DIR, 'sent_emails')
 
-EMAIL_HOST = 'smtp.yandex.ru'
-EMAIL_PORT = 465
-EMAIL_USE_SSL = True
+EMAIL_HOST = os.getenv('EMAIL_HOST')
+EMAIL_PORT = os.getenv('EMAIL_PORT')
+EMAIL_USE_SSL = os.getenv('EMAIL_USE_SSL')
 
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
@@ -227,5 +229,14 @@ NAMESETTING = {
         'status_create': {'name': 'создана'},
         'status_start': {'name': 'запущена'},
         'status_end': {'name': 'завершена'},
+        'status_stop': {'name': 'отключена'},
+    }
+}
+SITE_NAME = os.getenv('SITE_NAME')
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.redis.RedisCache',
+        'LOCATION': 'redis://127.0.0.1:6379'
     }
 }

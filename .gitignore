@@ -1,5 +1,5 @@
 .venv/
 .env
 __pycache__
-send_emails/
+sent_emails/
 warning_logging.log

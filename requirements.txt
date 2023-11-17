@@ -5,3 +5,5 @@ django-crispy-forms
 crispy-bootstrap5
 django-apscheduler
 django-timezone-field
+pillow
+redis
