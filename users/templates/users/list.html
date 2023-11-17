@@ -1,0 +1,54 @@
+{% extends "mailing/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<main>
+    <table class="table table-bordered">
+        <thead>
+            <tr class="text-center align-middle">
+                <th scope="col">#</th>
+                <th scope="col">Email</th>
+                <th scope="col">Имя</th>
+                <th scope="col">Фамилия</th>
+                <th scope="col">Комментарий</th>
+                <th scope="col">Персонал</th>
+                <th scope="col">Суперюзер</th>
+                <th scope="col">Активность</th>
+                <th scope="col">Изменить активность</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for object in object_list %}
+                <tr class="text-center align-middle">
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>{{ object.email }}</td>
+                    <td>{{ object.first_name }}</td>
+                    <td>{{ object.second_name }}</td>
+                    <td>{{ object.comment }}</td>
+                    <td>{% if object.is_staff %} <p class="text-success">Да</p> {% else %} <p class="text-danger">Нет</p> {% endif %} </td>
+                    <td>{% if object.is_superuser %} <p class="text-success">Да</p> {% else %} <p class="text-danger">Нет</p> {% endif %} </td>
+                    <td>{% if object.is_active %} <p class="text-success">Да</p> {% else %} <p class="text-danger">Нет</p> {% endif %} </td>
+                    <td>
+                        {% if not object.is_active %}
+                        <a class="w-100 btn btn-lg btn-outline-success mb-1" href="{% url "users:change_active" object.pk %}">
+                            Активировать
+                        </a>
+                        {% else %}
+                        <a class="w-100 btn btn-lg btn-outline-warning mb-1" href="{% url "users:change_active" object.pk%}">
+                            Деактивировать
+                        </a>
+                        {% endif %}
+                    </td>
+
+                    
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+         
+</main>
+
+{% endblock content %}
