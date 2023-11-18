@@ -100,11 +100,11 @@ def check_time_and_send_mail() -> None:
             is_send = False
             answer = f"Ошибка отправки: {str(e), success_count}."
 
-        finally:
-            Log.objects.create(is_send=is_send, answer=answer, setting=mailing_setting)
+        
+        Log.objects.create(is_send=is_send, answer=answer, setting=mailing_setting)
 
-            mailing_setting.count += 1
-            mailing_setting.save()
+        mailing_setting.count += 1
+        mailing_setting.save()
 
     print(f"Рассылка завершена. Выполнено {count_send_mail} рассылок")
 
