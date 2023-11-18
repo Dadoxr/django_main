@@ -1,40 +1,46 @@
+from django.core.management.base import BaseCommand
+from django.contrib.auth.models import Group, Permission
+from django.conf import settings
 import os
-from typing import Any
-from django.core.management import BaseCommand
 
 from users.models import User
 
+def add_permissions_to_group(group, permissions):
+    if permissions:
+        permission_objects = Permission.objects.filter(codename__in=permissions)
+        group.permissions.add(*permission_objects)
 
 class Command(BaseCommand):
-    def handle(self, *args: Any, **options: Any) -> str | None:
-        superuser = User.objects.get_or_create(
-            email=os.getenv('STAFF_SUPERUSER_EMAIL'), #admin@admin.admin
-            is_staff=True,
-            is_superuser=True,
-        )
-        staff = User.objects.get_or_create(
-            email=os.getenv('STAFF_EMAIL'), #staff@staff.staff
-            is_staff=True,
-            is_superuser=False,
-        )
-        blog_manager = User.objects.get_or_create(
-            email=os.getenv('BLOG_MANAGER_EMAIL'), #blog@blog.blog
-            is_staff=True,
-            is_superuser=False,
-        )
-        user = User.objects.get_or_create(
-            email=os.getenv('USER_EMAIL'), #user@user.user
-            is_staff=False,
-            is_superuser=False,
+    def create_or_update_user(self, email, is_staff, is_superuser, group_list):
+        user, just_created = User.objects.get_or_create(
+            email=email,
+            defaults={
+                'is_staff': is_staff,
+                'is_superuser': is_superuser,
+            }
         )
 
-        superuser[0].set_password(os.getenv('SUPERUSER_STAFF_USER_PASSWORD')) #1111
-        staff[0].set_password(os.getenv('SUPERUSER_STAFF_USER_PASSWORD')) #1111
-        blog_manager[0].set_password(os.getenv('SUPERUSER_STAFF_USER_PASSWORD')) #1111
-        user[0].set_password(os.getenv('SUPERUSER_STAFF_USER_PASSWORD')) #1111
-        
-        superuser[0].save()
-        staff[0].save()
-        blog_manager[0].save()
-        user[0].save()
+        if just_created:
+            for group_name in group_list:
+                user.groups.add(Group.objects.get(name=group_name))
+            user.set_password(os.getenv('SUPERUSER_STAFF_USER_PASSWORD')) # 1111
+            user.save()
 
+    def handle(self, *args, **options):
+
+        for name, codename_list in settings.ALL_TYPES_USERS_PERMISSIONS.items():
+            group, just_created = Group.objects.get_or_create(name=name)
+            if just_created:
+                add_permissions_to_group(group, codename_list)
+
+        self.create_or_update_user(os.getenv('STAFF_SUPERUSER_EMAIL'), True, True, ['blog','staff']
+        )
+        self.create_or_update_user(
+            os.getenv('BLOG_MANAGER_EMAIL'), True, False, ['blog']
+        )
+        self.create_or_update_user(
+            os.getenv('STAFF_EMAIL'), True, False, ['staff']
+        )
+        self.create_or_update_user(
+            os.getenv('USER_EMAIL'), False, False, ['user']
+        )
