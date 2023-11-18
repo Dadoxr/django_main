@@ -4,7 +4,7 @@
 
 ## Установка
 
-1) Убедитесь, что у вас установлен Python3 и Django.
+1) Убедитесь, что у вас установлен Python3, Redis и Django.
 
 2) Склонируйте репозиторий:
 ```bash
@@ -65,7 +65,39 @@ python3 manage.py add_period_statuses
 python3 manage.py runserver
 ```
 
-10) В отдельном терминале запустите рассылку по расписанию:
+10) Перейдите в `127.0.0.1:8000/admin/auth/group/` и создайте 3 группы с правами
+- **blog**:
+- - blog.add_blog
+- - blog.change_blog
+- - blog.delete_blog
+- - blog.view_blog
+- **staff**:
+- - mailing.view_log
+- - mailing.view_message
+- - mailing.view_setting
+- - mailing.view_user
+- **user**:
+- - blog.view_blog
+- - mailing.view_log
+- - mailing.add_message
+- - mailing.change_message
+- - mailing.delete_message
+- - mailing.view_message
+- - mailing.add_recipient
+- - mailing.change_recipient
+- - mailing.delete_recipient
+- - mailing.view_recipient
+- - mailing.add_setting
+- - mailing.change_setting
+- - mailing.delete_setting
+- - mailing.view_setting
+
+11) Добавьте юзеров в группы:
+- (blog@blog.blog) в группу blog
+- (staff@staff.staff) в группу staff
+- (user@user.user) в группу user
+
+12) В отдельном терминале запустите рассылку по расписанию:
 ```bash
 python3 manage.py domailing
 ```
