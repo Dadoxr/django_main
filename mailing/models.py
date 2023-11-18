@@ -86,7 +86,7 @@ class Setting(models.Model):
     owner = models.ForeignKey(
         User, on_delete=models.CASCADE, verbose_name="владелец", null=True, blank=True
     )
-    count = models.IntegerField(default=0, verbose_name="счетчик рассылки")
+    count = models.PositiveIntegerField(default=0, verbose_name="счетчик рассылки")
 
     def __str__(self):
         return f'{self.period} в {self.start_time.strftime("%H:%M")}'
