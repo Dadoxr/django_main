@@ -240,3 +240,34 @@ CACHES = {
         'LOCATION': 'redis://127.0.0.1:6379'
     }
 }
+
+ALL_TYPES_USERS_PERMISSIONS = {
+    'blog': [
+        'add_blog',
+        'change_blog',
+        'delete_blog',
+        'view_blog'
+    ],
+    'staff':[
+        'view_log',
+        'view_message',
+        'view_setting',
+        'view_user'
+    ],
+    'user':[
+        'view_blog',
+        'view_log',
+        'add_message',
+        'change_message',
+        'delete_message',
+        'view_message',
+        'add_recipient',
+        'change_recipient',
+        'delete_recipient',
+        'view_recipient',
+        'add_setting',
+        'change_setting',
+        'delete_setting',
+        'view_setting'
+    ]
+}

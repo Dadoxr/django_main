@@ -1,6 +1,7 @@
 import random
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.contrib.auth.models import Group, Permission
 from django.core.mail import send_mail
 from django.shortcuts import redirect
 from django.urls import reverse, reverse_lazy
@@ -21,7 +22,6 @@ class RegisterView(CreateView):
         self.object = form.save()
         code = "".join([str(random.randint(0, 9)) for _ in range(6)])
         self.object.confirmation_code = code
-        self.object.save()
 
         send_mail(
             subject="Подтверждение почты РАЗОШЛИ",
@@ -30,6 +30,9 @@ class RegisterView(CreateView):
             recipient_list=[self.object.email],
         )
 
+        self.object.groups.add(Group.objects.get(name='user'))
+
+        self.object.save()
         return super().form_valid(form)
 
 
